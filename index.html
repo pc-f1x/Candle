@@ -6,9 +6,11 @@
     <title>חנות נרות מעוצבים</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background: linear-gradient(45deg, #ff9a9e, #fad0c4); margin: 0; padding: 0; }
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-        .products { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .product { border: 2px solid #fff; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 40%; text-align: center; }
+        .container { max-width: 1000px; margin: auto; padding: 20px; }
+        .category { margin-top: 40px; }
+        .category h2 { background: #ff758c; color: white; padding: 10px; border-radius: 5px; }
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; justify-content: center; }
+        .product { border: 2px solid #fff; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
         .product img { width: 100%; max-width: 250px; border-radius: 10px; cursor: pointer; transition: transform 0.3s; }
         .product img:hover { transform: scale(1.05); }
         .buy-button { display: inline-block; padding: 12px 20px; margin-top: 15px; background-color: #25d366; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; }
@@ -37,18 +39,30 @@
 <body>
     <div class="container">
         <h1 style="color: white;">ברוכים הבאים לחנות הנרות שלנו</h1>
-        <div class="products">
-            <div class="product">
-                <img src="https://pc-f1x.github.io/Candle/candle.png" alt="נר מעוצב 1" onclick="openModal('https://pc-f1x.github.io/Candle/candle.png')">
-                <h2>נר מעוצב 1</h2>
-                <p>מחיר: 50 ש"ח</p>
-                <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 1', 'https://pc-f1x.github.io/Candle/candle.png')">קנה מוצר</button>
+        
+        <div class="category">
+            <h2>קטגוריה 1</h2>
+            <div class="products">
+                <div class="product">
+                    <img src="https://pc-f1x.github.io/Candle/candle.png" alt="נר מעוצב 1" onclick="openModal('https://pc-f1x.github.io/Candle/candle.png')">
+                    <h2>נר מעוצב 1</h2>
+                    <p>מחיר: 50 ש"ח</p>
+                    <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 1', 'https://pc-f1x.github.io/Candle/candle.png')">קנה מוצר</button>
+                </div>
+                <div class="product">
+                    <img src="https://yourwebsite.com/images/candle2.jpg" alt="נר מעוצב 2" onclick="openModal('https://yourwebsite.com/images/candle2.jpg')">
+                    <h2>נר מעוצב 2</h2>
+                    <p>מחיר: 60 ש"ח</p>
+                    <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 2', 'https://yourwebsite.com/images/candle2.jpg')">קנה מוצר</button>
+                </div>
+                <!-- הוסף כאן עוד 4 מוצרים לקטגוריה -->
             </div>
-            <div class="product">
-                <img src="https://yourwebsite.com/images/candle2.jpg" alt="נר מעוצב 2" onclick="openModal('https://yourwebsite.com/images/candle2.jpg')">
-                <h2>נר מעוצב 2</h2>
-                <p>מחיר: 60 ש"ח</p>
-                <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 2', 'https://yourwebsite.com/images/candle2.jpg')">קנה מוצר</button>
+        </div>
+        
+        <div class="category">
+            <h2>קטגוריה 2</h2>
+            <div class="products">
+                <!-- הוסף כאן 6 מוצרים נוספים -->
             </div>
         </div>
     </div>
