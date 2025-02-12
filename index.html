@@ -89,10 +89,6 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        window.onload = function() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
         // פונקציות להקטנה והגדלה של הסל
         function resizeCart(action) {
             const cartContainer = document.getElementById('cart-container');
@@ -106,6 +102,10 @@
                 cartContainer.style.width = (currentWidth * 0.8) + 'px';
                 cartContainer.style.height = (currentHeight * 0.8) + 'px';
             }
+        }
+
+        window.onload = function() {
+            document.getElementById('imageModal').style.display = 'none'; // סוגר את החלון בהתחלה
         }
     </script>
 </head>
@@ -133,12 +133,15 @@
             </div>
         </div>
     </div>
+
+    <!-- סל קניות -->
     <div id="cart-container" class="cart-container">
         <div class="resize-buttons">
             <button class="resize-button" onclick="resizeCart('increase')">הגדל</button>
             <button class="resize-button" onclick="resizeCart('decrease')">הקטן</button>
         </div>
     </div>
+
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
