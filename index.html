@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="he">
 <head>
     <meta charset="UTF-8">
@@ -14,8 +15,9 @@
     <script>
         function sendWhatsApp(productName, imageUrl) {
             const phoneNumber = '972525991584';
-            const message = `אני מעוניין לקנות את ${productName}%0A${imageUrl}`;
-            window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`, '_blank');
+            const encodedMessage = encodeURIComponent(`אני מעוניין לקנות את ${productName}`);
+            const encodedImageUrl = encodeURIComponent(imageUrl);
+            window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}%0A${encodedImageUrl}`, '_blank');
         }
     </script>
 </head>
@@ -24,17 +26,17 @@
         <h1>ברוכים הבאים לחנות הנרות שלנו</h1>
         
         <div class="product">
-            <img src="candle.png" alt="נר מעוצב 1">
+            <img src="https://pc-f1x.github.io/Candle/candle.png" alt="נר מעוצב 1">
             <h2>נר מעוצב 1</h2>
             <p>מחיר: 50 ש"ח</p>
-            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 1', 'candle.png')">קנה מוצר</button>
+            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 1', 'https://pc-f1x.github.io/Candle/candle.png')">קנה מוצר</button>
         </div>
         
         <div class="product">
-            <img src="candle2.jpg" alt="נר מעוצב 2">
+            <img src="https://yourwebsite.com/images/candle2.jpg" alt="נר מעוצב 2">
             <h2>נר מעוצב 2</h2>
             <p>מחיר: 60 ש"ח</p>
-            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 2', 'candle2.jpg')">קנה מוצר</button>
+            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 2', 'https://yourwebsite.com/images/candle2.jpg')">קנה מוצר</button>
         </div>
     </div>
 </body>
