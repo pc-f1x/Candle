@@ -1,0 +1,41 @@
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חנות נרות מעוצבים</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f8f8f8; margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+        .product { border: 1px solid #ddd; padding: 20px; margin: 20px auto; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 80%; }
+        .product img { width: 100%; max-width: 300px; border-radius: 10px; }
+        .buy-button { display: inline-block; padding: 12px 20px; margin-top: 15px; background-color: #25d366; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; }
+        .buy-button:hover { background-color: #1da851; }
+    </style>
+    <script>
+        function sendWhatsApp(productName, imageUrl) {
+            const phoneNumber = 'YOUR_PHONE';
+            const message = `אני מעוניין לקנות את ${productName}%0A${imageUrl}`;
+            window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`, '_blank');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>ברוכים הבאים לחנות הנרות שלנו</h1>
+        
+        <div class="product">
+            <img src="candle1.jpg" alt="נר מעוצב 1">
+            <h2>נר מעוצב 1</h2>
+            <p>מחיר: 50 ש"ח</p>
+            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 1', 'candle1.jpg')">קנה מוצר</button>
+        </div>
+        
+        <div class="product">
+            <img src="candle2.jpg" alt="נר מעוצב 2">
+            <h2>נר מעוצב 2</h2>
+            <p>מחיר: 60 ש"ח</p>
+            <button class="buy-button" onclick="sendWhatsApp('נר מעוצב 2', 'candle2.jpg')">קנה מוצר</button>
+        </div>
+    </div>
+</body>
+</html>
