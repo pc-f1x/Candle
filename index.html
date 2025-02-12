@@ -13,26 +13,53 @@
         .category h2 { background: #ff758c; color: white; padding: 10px; border-radius: 5px; font-size: 1.5em; }
         .products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-content: center; }
         @media (max-width: 600px) {
-            .products { grid-template-columns: repeat(2, 1fr); }
+            .products { grid-template-columns: 1fr; }
             .category h2 { font-size: 1.2em; }
         }
         .product { border: 2px solid #fff; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
         .product img { width: 100%; max-width: 200px; border-radius: 10px; cursor: pointer; transition: transform 0.3s; }
         .product img:hover { transform: scale(1.05); }
         .cart-button { background-color: #007bff; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 1.2em; }
-        .cart-container { position: fixed; top: 50px; right: 10px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: none; width: 200px; min-height: 200px; max-height: 70%; overflow-y: auto; transition: all 0.3s ease; z-index: 1000; }
+        .cart-container { position: fixed; top: 50px; right: 10px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: none; width: 250px; height: 300px;  overflow-y: auto; transition: all 0.3s ease; z-index: 1000; }
         .cart-item { display: flex; align-items: center; margin-bottom: 10px; }
         .cart-item img { width: 50px; height: 50px; border-radius: 5px; margin-right: 10px; }
-        .resize-buttons { display: flex; justify-content: space-between; margin-top: 10px; }
-        .resize-button { background-color: #007bff; color: white; border: none; padding: 8px 12px; font-size: 1em; cursor: pointer; border-radius: 5px; }
+        .resize-button { background-color: #007bff; color: white; border: none; padding: 8px 12px; font-size: 1em; cursor: pointer; border-radius: 5px; margin-top: 10px; }
         .whatsapp-button { background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 1.2em; display: block; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
         .modal-content { position: relative; background: white; padding: 20px; border-radius: 10px; max-width: 90%; }
         .modal img { width: 100%; max-width: 600px; border-radius: 10px; }
         .close { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px; }
+       .hidden-cart {
+            width: 50px !important;
+            height: 50px !important;
+            padding: 5px !important;
+            overflow: hidden !important;
+            min-height: auto !important;
+        }
+        .hidden-cart h3, .hidden-cart .cart-item, .hidden-cart .whatsapp-button, .hidden-cart .cart-total{
+            display: none;
+        }
+      .remove-button {
+          background-color: #ff6b6b;
+          color: white;
+          border: none;
+          padding: 3px 6px;
+          border-radius: 3px;
+          cursor: pointer;
+          font-size: 0.8em;
+          margin-left: 5px;
+      }
+      .cart-total {
+        font-weight: bold;
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+        padding-top: 5px;
+    }
+
     </style>
     <script>
         let cart = [];
+        let isCartHidden = false;
 
         function addToCart(productName, imageUrl, price) {
             cart.push({ name: productName, image: imageUrl, price: price });
@@ -42,19 +69,44 @@
         function updateCart() {
             const cartContainer = document.getElementById('cart-container');
             cartContainer.innerHTML = '<h3>המוצרים שנבחרו</h3>';
-            cart.forEach(item => {
-                cartContainer.innerHTML += `<div class='cart-item'><img src='${item.image}'><span>${item.name} - ${item.price} ש"ח</span></div>`;
+            let total = 0; // אתחל משתנה סכום כאן
+
+            cart.forEach((item, index) => {
+                cartContainer.innerHTML += `
+                    <div class='cart-item'>
+                        <img src='${item.image}'>
+                        <span>${item.name} - ${item.price} ש"ח</span>
+                        <button class="remove-button" onclick="removeFromCart(${index})">הסר</button>
+                    </div>`;
+                    total += parseFloat(item.price); // חשב את הסכום תוך כדי בניית רשימת הפריטים
             });
+
+            // הוסף את שורת הסכום הכולל
+            cartContainer.innerHTML += `<div class='cart-total'>סה"כ: ${total} ש"ח</div>`;
+
             cartContainer.innerHTML += `<button class="whatsapp-button" onclick="sendToWhatsApp()">שלח הזמנה לוואטסאפ</button>`;
+            cartContainer.innerHTML += `<button class="resize-button" onclick="toggleCartVisibility()">${isCartHidden ? 'הצג' : 'הסתר'}</button>`;
             cartContainer.style.display = 'block';
         }
 
+         function removeFromCart(index) {
+            cart.splice(index, 1); // הסר את הפריט מהמערך
+            updateCart(); // עדכן את תצוגת הסל
+        }
+
+
         function sendToWhatsApp() {
-            let phone = "972525991584"; // הכנס כאן את מספר הטלפון של המוכר
+            let phone = "972525991584";
             let message = "שלום, אני מעוניין לרכוש את המוצרים הבאים:%0A";
+            let total = 0; // אתחול משתנה סכום
+
             cart.forEach(item => {
                 message += `🔹 ${item.name} - ${item.price} ש"ח%0A`;
+                total += parseFloat(item.price); // המר מחרוזת למספר והוסף לסכום
             });
+
+            message += `%0Aסה"כ תשלום על ${cart.length} מוצרים = ${total} ש"ח`; // הוסף את הסכום להודעה
+
             let whatsappUrl = `https://wa.me/${phone}?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
@@ -68,38 +120,16 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        function resizeCart(action) {
+        // פונקציה חדשה להחלפת מצב התצוגה של הסל
+        function toggleCartVisibility() {
             const cartContainer = document.getElementById('cart-container');
-            
-            let newWidth = cartContainer.offsetWidth;
-            let newHeight = cartContainer.offsetHeight;
-
-            const maxWidth = 500;
-            const minWidth = 200;
-            const maxHeight = 500;
-            const minHeight = 200;
-
-            if (action === 'increase') {
-                if (newWidth < maxWidth) {
-                    newWidth = newWidth * 1.2;
-                }
-                if (newHeight < maxHeight) {
-                    newHeight = newHeight * 1.2;
-                }
-            } else if (action === 'decrease') {
-                if (newWidth > minWidth) {
-                    newWidth = newWidth * 0.8;
-                }
-                if (newHeight > minHeight) {
-                    newHeight = newHeight * 0.8;
-                }
+            if (isCartHidden) {
+                cartContainer.classList.remove('hidden-cart'); // הסר מחלקה שמסתירה
+            } else {
+                cartContainer.classList.add('hidden-cart'); // הוסף מחלקה שמסתירה
             }
-
-            newWidth = Math.min(maxWidth, Math.max(minWidth, newWidth));
-            newHeight = Math.min(maxHeight, Math.max(minHeight, newHeight));
-
-            cartContainer.style.width = newWidth + 'px';
-            cartContainer.style.height = newHeight + 'px';
+            isCartHidden = !isCartHidden; // שנה את המצב
+            updateCart(); // עדכן את הכפתור
         }
 
         window.onload = function() {
@@ -134,10 +164,7 @@
 
     <!-- סל קניות -->
     <div id="cart-container" class="cart-container">
-        <div class="resize-buttons">
-            <button class="resize-button" onclick="resizeCart('increase')">הגדל</button>
-            <button class="resize-button" onclick="resizeCart('decrease')">הקטן</button>
-        </div>
+        <!-- התוכן של סל הקניות יעודכן על ידי JavaScript -->
     </div>
 
     <div id="imageModal" class="modal">
