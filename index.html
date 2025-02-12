@@ -13,7 +13,7 @@
         .category h2 { background: #ff758c; color: white; padding: 10px; border-radius: 5px; font-size: 1.5em; }
         .products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-content: center; }
         @media (max-width: 600px) {
-            .products { grid-template-columns: 1fr; }
+            .products { grid-template-columns: repeat(2, 1fr); }
             .category h2 { font-size: 1.2em; }
         }
         .product { border: 2px solid #fff; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
@@ -97,7 +97,7 @@
 
         function sendToWhatsApp() {
             let phone = "972525991584";
-            let message = "שלום, אני מעוניין לרכוש את המוצרים הבאים:%0A";
+            let message = "שלום, אני רוצה לרכוש את המוצרים הבאים:%0A";
             let total = 0; // אתחול משתנה סכום
 
             cart.forEach(item => {
