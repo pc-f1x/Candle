@@ -70,16 +70,36 @@
 
         function resizeCart(action) {
             const cartContainer = document.getElementById('cart-container');
-            let currentWidth = cartContainer.offsetWidth;
-            let currentHeight = cartContainer.offsetHeight;
+            
+            let newWidth = cartContainer.offsetWidth;
+            let newHeight = cartContainer.offsetHeight;
+
+            const maxWidth = 500;
+            const minWidth = 200;
+            const maxHeight = 500;
+            const minHeight = 200;
 
             if (action === 'increase') {
-                cartContainer.style.width = (currentWidth * 1.2) + 'px';
-                cartContainer.style.height = (currentHeight * 1.2) + 'px';
+                if (newWidth < maxWidth) {
+                    newWidth = newWidth * 1.2;
+                }
+                if (newHeight < maxHeight) {
+                    newHeight = newHeight * 1.2;
+                }
             } else if (action === 'decrease') {
-                cartContainer.style.width = (currentWidth * 0.8) + 'px';
-                cartContainer.style.height = (currentHeight * 0.8) + 'px';
+                if (newWidth > minWidth) {
+                    newWidth = newWidth * 0.8;
+                }
+                if (newHeight > minHeight) {
+                    newHeight = newHeight * 0.8;
+                }
             }
+
+            newWidth = Math.min(maxWidth, Math.max(minWidth, newWidth));
+            newHeight = Math.min(maxHeight, Math.max(minHeight, newHeight));
+
+            cartContainer.style.width = newWidth + 'px';
+            cartContainer.style.height = newHeight + 'px';
         }
 
         window.onload = function() {
